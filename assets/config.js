@@ -9,6 +9,9 @@ window.OBSIDIAN = {
 
   // only used until /v1/plans answers. the worker's catalogue is the real one, so
   // nobody can edit a price in devtools and pay it.
+  // The shop itself, for anyone buying outside the dashboard checkout.
+  shopUrl: "https://snowsshop.mysellauth.com/products",
+
   fallbackPlans: [
     { id: "month", label: "monthly", days: 30, devices: 1, amount: 999, currency: "usd", blurb: "everything, one pc" },
     { id: "quarter", label: "3 months", days: 90, devices: 1, amount: 2499, currency: "usd", blurb: "save 17%" },

@@ -81,6 +81,9 @@
           <button class="btn btn-primary" id="redeem-btn" style="white-space:nowrap">redeem</button>
         </div>
         <p class="state" id="redeem-state"></p>
+        <p class="fine" id="shop-line" hidden style="margin-top:10px">
+          bought it on the shop instead? <a id="shop-link" href="#" target="_blank" rel="noopener">browse the shop</a>
+        </p>
       </article>
 
       <article class="card">
@@ -466,6 +469,12 @@
   }
 
   $("download").href = loaderUrl;
+
+  const shopUrl = String(window.OBSIDIAN?.shopUrl || "");
+  if (shopUrl) {
+    $("shop-link").href = shopUrl;
+    $("shop-line").hidden = false;
+  }
 
   setMode(wantsRegister ? "register" : "login");
   load();
