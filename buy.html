@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>checkout — obsidian</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="assets/style.css?v=4">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237a6cff'/></svg>">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="index.html">
+    <span class="brand-dot"></span>
+    obsidian <span class="brand-sub">cs2</span>
+  </a>
+  <a class="btn btn-ghost" href="index.html">back to site</a>
+</nav>
+
+<main class="claim">
+  <div class="pill"><span class="live"></span> <span id="head">checkout</span></div>
+
+  <h1 id="title">one payment, time added.</h1>
+  <p class="lede" id="lede">
+    Our payment page handles it. As soon as it clears, the time lands on your account —
+    no key to copy, nothing to confirm.
+  </p>
+
+  <section class="card pay" id="pay" hidden>
+    <p class="pay-status" id="status">opening the payment page…</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+      <a class="btn btn-primary" id="go" href="#" rel="noopener">open payment page</a>
+    </div>
+    <p class="fine" style="margin-top:14px">
+      Payment is handled by our store. Nothing is charged until you finish on their page.
+    </p>
+  </section>
+
+  <section class="card pay" id="signin" hidden>
+    <h3>sign in first</h3>
+    <p class="fine" style="margin:8px 0 16px">
+      The time is attached to your account the second it is paid, so sign up or sign in
+      before paying — otherwise you get a key to redeem yourself.
+    </p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a class="btn btn-primary" href="dashboard.html">sign in</a>
+      <a class="btn btn-ghost" href="dashboard.html?mode=register">create an account</a>
+      <button class="btn btn-ghost" id="guest">buy without signing in</button>
+    </div>
+  </section>
+
+  <section class="card pay" id="dead" hidden>
+    <h3 id="dead-title">checkout is unavailable.</h3>
+    <p class="fine" id="dead-note"></p>
+    <div style="margin-top:14px">
+      <a class="btn btn-primary" href="index.html#pricing">back to pricing</a>
+    </div>
+  </section>
+
+  <p class="fine" id="error"></p>
+</main>
+
+<footer class="foot">
+  <div class="foot-brand"><span class="brand-dot"></span> obsidian cs2</div>
+  <div class="foot-links"><a href="terms.html">terms</a><a href="dashboard.html">dashboard</a></div>
+  <p class="fine">watermarked builds. time is added automatically on payment.</p>
+</footer>
+
+<script src="assets/config.js?v=4"></script>
+<script src="assets/buy.js?v=4"></script>
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>dashboard — obsidian</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="assets/style.css?v=3">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="index.html">
+    <span class="brand-dot"></span>
+    obsidian <span class="brand-sub">cs2</span>
+  </a>
+  <div class="nav-links">
+    <a href="dashboard.html">dashboard</a>
+    <a href="index.html#pricing">pricing</a>
+    <a href="index.html#faq">faq</a>
+  </div>
+  <button class="btn btn-ghost" id="signout" style="display:none">sign out</button>
+</nav>
+
+<main class="dash">
+
+  <!-- ---------- signed out ---------- -->
+  <section class="dash-login" id="login-view">
+    <h1 id="auth-title">sign in</h1>
+    <p class="lede" id="auth-lede">The same username and password open the loader and the in-game menu.</p>
+
+    <form class="card" style="padding:24px" id="login-form">
+      <label class="field-label" for="u">username</label>
+      <input class="field-input" id="u" autocomplete="username" spellcheck="false" placeholder="omen" style="margin-bottom:14px">
+      <label class="field-label" for="p">password</label>
+      <input class="field-input" id="p" type="password" autocomplete="current-password" placeholder="••••••••">
+      <button class="btn btn-primary" id="login-btn" type="submit" style="width:100%;margin-top:20px">sign in</button>
+      <p class="state" id="login-state"></p>
+    </form>
+
+    <form class="card" style="padding:24px;display:none" id="register-form">
+      <label class="field-label" for="ru">pick a username</label>
+      <input class="field-input" id="ru" autocomplete="username" spellcheck="false" placeholder="3-16 letters, numbers, _ or ." style="margin-bottom:14px">
+      <label class="field-label" for="rp">password</label>
+      <input class="field-input" id="rp" type="password" autocomplete="new-password" placeholder="at least 8 characters" style="margin-bottom:14px">
+      <label class="field-label" for="rp2">confirm password</label>
+      <input class="field-input" id="rp2" type="password" autocomplete="new-password" placeholder="same again">
+      <button class="btn btn-primary" id="register-btn" type="submit" style="width:100%;margin-top:20px">create account</button>
+      <p class="state" id="register-state"></p>
+    </form>
+
+    <p class="fine" style="margin-top:16px" id="switch-line">
+      No account yet? <a href="#" id="to-register">sign up free</a> — no key needed, you redeem one after.
+    </p>
+  </section>
+
+  <!-- ---------- signed in ---------- -->
+  <section id="account-view" style="display:none">
+    <header class="dash-head">
+      <div>
+        <div class="pill" id="plan-pill">—</div>
+        <h1 id="greeting">welcome back</h1>
+        <p class="lede" id="expiry-line">—</p>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn btn-ghost" href="buy.html?plan=month" id="buy-time">buy time</a>
+        <a class="btn btn-primary" id="download" href="loader.exe" download>download loader</a>
+      </div>
+    </header>
+
+    <div class="dash-grid">
+      <article class="card">
+        <h3>redeem a key</h3>
+        <p class="fine" style="margin:8px 0 14px" id="redeem-hint">
+          Buying from this dashboard adds the time here by itself — a key is only needed if
+          you bought one somewhere else. Paste it below and it adds its time, once.
+        </p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input class="field-input" id="key" placeholder="OBSD-XXXX-XXXX-XXXX-XXXX" spellcheck="false"
+                 style="flex:1;min-width:210px;text-transform:uppercase;font-family:ui-monospace,monospace;letter-spacing:.04em">
+          <button class="btn btn-primary" id="redeem-btn" style="white-space:nowrap">redeem</button>
+        </div>
+        <p class="state" id="redeem-state"></p>
+      </article>
+
+      <article class="card">
+        <h3>subscription</h3>
+        <div class="bar"><b id="day-bar"></b></div>
+        <p class="fine" id="days-line">—</p>
+        <div class="kv-list" id="sub-kv"></div>
+      </article>
+    </div>
+
+    <div class="dash-grid">
+      <article class="card">
+        <h3>your pcs</h3>
+        <div id="devices"></div>
+        <button class="btn btn-ghost" id="reset" style="margin-top:14px">reset devices</button>
+        <p class="fine" style="margin-top:10px">Use this when you move to a new pc. It unbinds the old ones and the
+        loader picks it up on the next launch.</p>
+      </article>
+
+      <article class="card">
+        <h3>how to get in game</h3>
+        <ol class="steps">
+          <li><b>download the loader</b><span>One file. It asks to run as admin because CS2 does.</span></li>
+          <li><b>sign in there too</b><span>The same username and password. No key to keep track of.</span></li>
+          <li><b>press insert</b><span>The module downloads itself, and the menu opens in game.</span></li>
+        </ol>
+      </article>
+    </div>
+
+    <div class="dash-grid">
+      <article class="card">
+        <h3>recent orders</h3>
+        <div id="orders"></div>
+      </article>
+      <article class="card">
+        <h3>account</h3>
+        <div class="kv-list" id="account-kv"></div>
+        <p class="fine" style="margin-top:14px">Do not share this login. Anyone with it can use your subscription.</p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot-brand"><span class="brand-dot"></span> obsidian cs2</div>
+  <div class="foot-links">
+    <a href="terms.html">terms</a>
+    <a href="index.html#pricing">pricing</a>
+  </div>
+  <p class="fine">Keys are single use. Redeeming one binds it to your account for good.</p>
+</footer>
+
+<script src="assets/config.js?v=3"></script>
+<script>
+(() => {
+  const api = (window.OBSIDIAN?.api || "").replace(/\/+$/, "");
+
+  // point the download wherever the loader actually lives (release asset, cdn, ...)
+  const loaderUrl = String(window.OBSIDIAN?.loaderUrl || "loader.exe");
+  const TOKEN_KEY = "obsidian-token";
+  const $ = (id) => document.getElementById(id);
+
+  const token = () => localStorage.getItem(TOKEN_KEY) || "";
+  const escapeHtml = (text) => String(text ?? "").replace(/[&<>"']/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  const say = (node, text, tone) => {
+    if (!node) return;
+    node.textContent = text || "";
+    node.className = "state" + (tone ? " " + tone : "");
+  };
+
+  const daysBetween = (unix) => {
+    if (!unix) return "no time on this account yet";
+    const left = Math.ceil((unix * 1000 - Date.now()) / 86400000);
+    return left <= 0 ? "expired" : left + " day" + (left === 1 ? "" : "s") + " left";
+  };
+
+  const ago = (unix) => {
+    if (!unix) return "never";
+    const diff = Math.floor(Date.now() / 1000) - unix;
+    if (diff < 90) return "just now";
+    if (diff < 3600) return Math.floor(diff / 60) + "m ago";
+    if (diff < 86400) return Math.floor(diff / 3600) + "h ago";
+    return Math.floor(diff / 86400) + "d ago";
+  };
+
+  function show(view) {
+    $("login-view").style.display = view === "login" ? "" : "none";
+    $("account-view").style.display = view === "account" ? "" : "none";
+    $("signout").style.display = view === "account" ? "" : "none";
+  }
+
+  function setMode(mode) {
+    const register = mode === "register";
+    $("login-form").style.display = register ? "none" : "";
+    $("register-form").style.display = register ? "" : "none";
+    $("auth-title").textContent = register ? "create account" : "sign in";
+    $("auth-lede").textContent = register
+      ? "Free and instant — no key needed to sign up. Add time later by redeeming a key."
+      : "The same username and password open the loader and the in-game menu.";
+    $("switch-line").innerHTML = register
+      ? 'Already have an account? <a href="#" id="to-login">sign in</a>.'
+      : 'No account yet? <a href="#" id="to-register">sign up free</a> — no key needed, you redeem one after.';
+
+    const wire = (id, target) => {
+      const node = $(id);
+      if (node) node.onclick = (event) => { event.preventDefault(); setMode(target); };
+    };
+    wire("to-register", "register");
+    wire("to-login", "login");
+  }
+
+  // a bare "not found" means the deployed api is older than this page, which is a
+  // deploy problem and not something the person typing can fix
+  const host = (() => {
+    try { return new URL(api).host; } catch { return api || "no api set"; }
+  })();
+
+  const friendly = (status, error) => {
+    if (status === 404 && (!error || /not found/i.test(error))) {
+      return "this page cannot reach " + host + " - the server there is out of date";
+    }
+    if (status === 403 && /origin/i.test(error || "")) {
+      return "this domain is not allowed to talk to the server yet (" + host + ")";
+    }
+    return error || "request failed (" + status + ") from " + host;
+  };
+
+  async function post(path, body, withToken) {
+    const response = await fetch(api + path, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        ...(withToken ? { authorization: "Bearer " + token() } : {}),
+      },
+      body: JSON.stringify(body || {}),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!data.ok) throw new Error(friendly(response.status, data.error));
+    return data;
+  }
+
+  // A checkout opened from this browser leaves its invoice id behind. The shop's webhook
+  // normally credits it, but this settles the same invoice on the way back so a paid
+  // purchase never waits on a webhook. Repeating it is a no-op on the server.
+  async function settlePending() {
+    let pending = null;
+    try { pending = JSON.parse(localStorage.getItem("obsidian-pending-invoice") || "null"); } catch {}
+    if (!pending?.id) return null;
+
+    if (Date.now() - (pending.at || 0) > 24 * 3600 * 1000) {
+      localStorage.removeItem("obsidian-pending-invoice");
+      return null;
+    }
+
+    try {
+      const data = await post("/v1/checkout/confirm", { invoice_id: pending.id }, true);
+      if (data.paid) {
+        localStorage.removeItem("obsidian-pending-invoice");
+        return data;
+      }
+    } catch {}
+
+    return null;
+  }
+
+  async function load() {
+    if (!token()) return show("login");
+
+    const settled = await settlePending();
+
+    try {
+      const response = await fetch(api + "/v1/account/me", {
+        headers: { authorization: "Bearer " + token() },
+      });
+      const data = await response.json().catch(() => ({}));
+
+      // a bad or expired token is the only reason to throw the session away - a
+      // blip, a timeout or a server hiccup must not log someone out of a page
+      // they are already signed in on
+      if (response.status === 401) {
+        localStorage.removeItem(TOKEN_KEY);
+        show("login");
+        say($("login-state"), "your session ended — sign in again.", "bad");
+        return;
+      }
+      if (!data.ok) throw new Error(data.error || "request failed (" + response.status + ")");
+
+      render(data);
+      show("account");
+
+      if (settled?.credited) {
+        say($("redeem-state"),
+          "payment received — " + (settled.days || 30) + " days added to this account.", "good");
+      }
+    } catch (error) {
+      show("login");
+      say($("login-state"), "could not load your account - " + error.message, "bad");
+    }
+  }
+
+  function render(data) {
+    const active = data.has_subscription;
+    $("greeting").textContent = "welcome back, " + data.username;
+    $("plan-pill").textContent = data.revoked
+      ? "revoked"
+      : active ? data.plan + " plan" : "no time yet";
+    $("expiry-line").textContent = data.revoked
+      ? "this subscription was revoked."
+      : active
+        ? "active until " + new Date(data.expires_at * 1000).toLocaleDateString()
+        : "redeem a key below to start your time.";
+
+    const left = Math.max(0, data.days_left || 0);
+    const percent = active ? Math.max(4, Math.min(100, (left / 30) * 100)) : 0;
+    $("day-bar").style.width = percent + "%";
+    $("day-bar").style.background = active
+      ? "linear-gradient(90deg,#6f60f5,#a99cff)"
+      : "#2a2a38";
+    $("days-line").textContent = data.revoked ? "access removed" : daysBetween(data.expires_at);
+
+    $("sub-kv").innerHTML = `
+      <div>plan</div><div>${escapeHtml(data.plan || "—")}</div>
+      <div>device limit</div><div>${data.max_devices ? data.max_devices + " pc" + (data.max_devices === 1 ? "" : "s") : "—"}</div>
+      <div>used</div><div>${data.max_devices ? (data.devices || []).length + " / " + data.max_devices : "—"}</div>
+    `;
+
+    const devices = data.devices || [];
+    $("devices").innerHTML = devices.length
+      ? devices.map((device, index) => `
+          <div class="device">
+            <div>
+              <b>${escapeHtml(device.label || "pc " + (index + 1))}</b>
+              <span class="mono dim">${escapeHtml((device.hwid || "").slice(0, 18))}…</span>
+            </div>
+            <span class="fine">${device.banned ? "banned" : "seen " + ago(device.last_seen)}</span>
+          </div>`).join("")
+      : `<p class="fine">No pc bound yet. Sign in on the loader and this fills in.</p>`;
+
+    const orders = data.orders || [];
+    $("orders").innerHTML = orders.length
+      ? orders.map((order) => `
+          <div class="device">
+            <div><b>${escapeHtml(order.plan)}</b></div>
+            <span class="fine">${(order.amount / 100).toFixed(2)} ${String(order.currency).toUpperCase()} · ${ago(order.created_at)}</span>
+          </div>`).join("")
+      : `<p class="fine">No purchases yet — keys bought from the store show up here.</p>`;
+
+    $("account-kv").innerHTML = `
+      <div>username</div><div>${escapeHtml(data.username)}</div>
+      <div>email</div><div>${escapeHtml(data.email || "—")}</div>
+      <div>status</div><div>${data.revoked ? "revoked" : active ? "active" : "awaiting a key"}</div>
+    `;
+
+    $("redeem-hint").textContent = active
+      ? "Renewing? Paste the new key and the days stack onto your current time."
+      : "Paste the key you bought. It adds its time to this account, once.";
+  }
+
+  // ---------- sign in / register ----------
+
+  $("login-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const button = $("login-btn");
+    const username = $("u").value.trim().toLowerCase();
+    const password = $("p").value;
+    if (!username || !password) return say($("login-state"), "fill in both fields.", "bad");
+
+    button.disabled = true;
+    button.textContent = "signing in…";
+    say($("login-state"), "");
+
+    try {
+      const data = await post("/v1/account/login", { username, password });
+      localStorage.setItem(TOKEN_KEY, data.token);
+      $("p").value = "";
+      await load();
+    } catch (error) {
+      say($("login-state"), error.message, "bad");
+    } finally {
+      button.disabled = false;
+      button.textContent = "sign in";
+    }
+  });
+
+  $("register-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const button = $("register-btn");
+    const username = $("ru").value.trim().toLowerCase();
+    const password = $("rp").value;
+    const confirm = $("rp2").value;
+
+    if (password !== confirm) return say($("register-state"), "those passwords do not match.", "bad");
+    if (password.length < 8) return say($("register-state"), "password needs at least 8 characters.", "bad");
+
+    button.disabled = true;
+    button.textContent = "creating…";
+    say($("register-state"), "");
+
+    try {
+      const data = await post("/v1/register", { username, password });
+      localStorage.setItem(TOKEN_KEY, data.token);
+      $("rp").value = "";
+      $("rp2").value = "";
+      await load();
+    } catch (error) {
+      say($("register-state"), error.message, "bad");
+    } finally {
+      button.disabled = false;
+      button.textContent = "create account";
+    }
+  });
+
+  // ---------- redeem ----------
+
+  const formatKey = (value) => value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+  $("key").addEventListener("input", (event) => {
+    let raw = formatKey(event.target.value).slice(0, 20);
+    if (raw.startsWith("OBSD") && raw.length > 4) {
+      const body = raw.slice(4);
+      raw = "OBSD-" + (body.match(/.{1,4}/g) || []).join("-");
+    }
+    event.target.value = raw;
+  });
+
+  $("redeem-btn").addEventListener("click", async () => {
+    const button = $("redeem-btn");
+    const key = $("key").value.trim();
+    if (key.length < 8) return say($("redeem-state"), "that does not look like a key.", "bad");
+
+    button.disabled = true;
+    button.textContent = "redeeming…";
+    say($("redeem-state"), "");
+
+    try {
+      const data = await post("/v1/redeem", { key }, true);
+      $("key").value = "";
+      say($("redeem-state"), `+${data.days_added} days added — you have ${data.days_left} left.`, "good");
+      await load();
+    } catch (error) {
+      say($("redeem-state"), error.message, "bad");
+    } finally {
+      button.disabled = false;
+      button.textContent = "redeem";
+    }
+  });
+
+  // ---------- misc ----------
+
+  $("signout").addEventListener("click", () => {
+    localStorage.removeItem(TOKEN_KEY);
+    show("login");
+    say($("login-state"), "");
+  });
+
+  $("reset").addEventListener("click", async () => {
+    if (!confirm("unbind every pc? you will sign in again on the one you want to use.")) return;
+    try {
+      await post("/v1/account/reset-hwid", {}, true);
+      await load();
+      alert("devices cleared. sign in on the pc you want to use.");
+    } catch (error) {
+      alert(error.message);
+    }
+  });
+
+  // dashboard.html?mode=register opens straight onto the sign up form, which is how
+  // the site links here. no key is involved in making an account.
+  const wantsRegister = new URLSearchParams(location.search).get("mode") === "register";
+
+  // a key carried over from the success page drops straight into the redeem box
+  try {
+    const pending = sessionStorage.getItem("obsidian-pending-key");
+    if (pending) {
+      $("key").value = pending;
+      sessionStorage.removeItem("obsidian-pending-key");
+      say($("redeem-state"), "your new key is filled in - hit redeem.", "good");
+    }
+  } catch {
+    /* storage blocked, they can paste it */
+  }
+
+  $("download").href = loaderUrl;
+
+  setMode(wantsRegister ? "register" : "login");
+  load();
+})();
+</script>
+</body>
+</html>
